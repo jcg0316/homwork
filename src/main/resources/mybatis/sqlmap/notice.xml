@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="notice">
+  
+  <!-- 게시판 카테고리 조회 -->
+  <select id="getNoticeList" resultType="NoticeVO">
+  	select * from notice
+  	order by notice_seq
+  </select> 
+  
+  <!-- 게시판 카테고리 조회 -->
+  <select id="getNoticeListLayout" resultType="NoticeVO">
+  	select * from notice
+  	where notice_act = 'Y'
+  	order by notice_seq
+  </select> 
+  
+  <!-- 게시판 활성화 -->
+  <update id="noticeActOn" parameterType="NoticeVO">
+  	update notice
+	set notice_act = 'Y'
+	where notice_seq = #{notice_seq} 
+	and notice_act = 'N'
+  </update>
+  
+  <!-- 게시판 비활성화 -->
+  <update id="noticeActOff" parameterType="NoticeVO">
+  	update notice
+	set notice_act = 'N'
+	where notice_seq = #{notice_seq} 
+	and notice_act = 'Y'
+  </update>
+  
+  <insert id="noticeWrite" parameterType="NoticeVO">
+  	insert into notice (notice_seq,notice_name,notice_reg_dt,notice_act,notice_mem_id)
+  				values (notice_seq.nextval,#{notice_name},sysdate,'Y',#{notice_mem_id})
+  </insert>
+  
+</mapper>

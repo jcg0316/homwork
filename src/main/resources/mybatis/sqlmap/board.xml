@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+  
+  <!-- 게시판 페이지 조회 -->
+  <select id="getBoardPageList" resultType="BoardVO" parameterType="map">
+	select * from
+		(select rownum rn, board.* , level
+			from board
+			where category_seq = #{category_seq}
+			start with pboard_seq is null
+            connect by prior board_seq = pboard_seq
+            order siblings by group_seq desc)
+		where rn between (#{page}-1) * #{pageSize}+1 and #{page} * #{pageSize}
+  </select>
+  
+  <!-- 게시판 건수 조회 -->
+  <select id="getBoardTotalCnt" resultType="Integer">
+  	select count(*)
+  	from board
+  </select>
+  
+  <!-- 게시판 글 조회 -->
+  <select id="getBoard" resultType="BoardVO" parameterType="Integer">
+  	select * 
+  	from board 
+  	where board_seq = #{board_seq}
+  </select>
+  
+  <!-- 게시판 글 쓰기  -->
+  <insert id="boardWrite" parameterType="BoardVO">
+  	insert into board (board_seq, pboard_seq, category_seq, group_seq, board_title,board_content, board_reg_dt, board_del_yn, board_mem_id)
+				values(board_seq.nextval,'1','1',group_seq.nextval,#{board_title},#{board_content},sysdate,'N',#{board_mem_id})
+  </insert>
+  
+  <!--  게시판 글 수정 -->
+  <update id="boardModify" parameterType="BoardVO">
+  	update board
+  	set board_title = #{board_title},
+  		board_content = #{board_content}, 
+  		board_reg_dt = sysdate
+  	where board_mem_id = #{board_mem_id}
+  	and board_seq = #{board_seq}
+  </update>
+  
+  
+  
+</mapper>
