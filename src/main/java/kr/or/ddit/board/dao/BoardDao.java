@@ -42,9 +42,9 @@ public class BoardDao implements BoardDaoInf {
 	}
 
 	@Override
-	public int getBoardTotalCnt() {
+	public int getBoardTotalCnt(int getBoardTotalCnt) {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
-		int boardTotalCnt = sqlSession.selectOne("board.getBoardTotalCnt");
+		int boardTotalCnt = sqlSession.selectOne("board.getBoardTotalCnt", getBoardTotalCnt);
 		sqlSession.close();
 		return boardTotalCnt;
 	}
@@ -99,10 +99,48 @@ public class BoardDao implements BoardDaoInf {
 	@Override
 	public int boardModify(BoardVO bvo) {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
-		int boardModify = sqlSession.insert("board.boardModify",bvo);
+		int boardModify = sqlSession.update("board.boardModify",bvo);
 		sqlSession.commit();
 		sqlSession.close();
 		return boardModify;
+	}
+	
+	/**
+	 * 
+	* Method : boardDelete
+	* 최초작성일 : 2018. 5. 18.
+	* 작성자 : J.C.G
+	* 변경이력 :
+	* @param bvo
+	* @return
+	* Method 설명 : 게시판 글 삭제
+	 */
+	@Override
+	public int boardDelete(BoardVO bvo) {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		int boardDelete = sqlSession.update("board.boardDelete",bvo);
+		sqlSession.commit();
+		sqlSession.close();
+		return boardDelete;
+	}
+	
+	/**
+	 * 
+	* Method : boardReWrite
+	* 최초작성일 : 2018. 5. 19.
+	* 작성자 : J.C.G
+	* 변경이력 :
+	* @param bvo
+	* @return
+	* Method 설명 : 답글 입력
+	 */
+	@Override
+	public int boardReWrite(BoardVO bvo) {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		int boardReWrite = sqlSession.insert("board.boardReWrite",bvo);
+		sqlSession.commit();
+		sqlSession.close();
+		return boardReWrite;
 	}
 
 

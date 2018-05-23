@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="reply">
+  
+  <!-- 댓글 조회 -->
+  <select id="getReplyList" parameterType="ReplyVO" resultType="ReplyVO">
+  	select * from reply
+  	where reply_board_seq = #{reply_board_seq}
+  	order by reply_seq desc
+  </select>
+  
+  <!-- 댓글 쓰기  -->
+  <insert id="replyWrite" parameterType="ReplyVO">
+  	insert into reply (reply_seq,
+  					   reply_board_seq,
+  					   reply_content,
+  					   reply_reg_dt,
+  					   reply_del_yn,
+  					   reply_mem_id)
+				values(reply_seq.nextval,
+					   #{reply_board_seq},
+					   #{reply_content},
+					   sysdate,
+					   'N',
+					   #{reply_mem_id})
+  </insert>
+  
+  <!--  댓글 삭제 -->
+  <update id="replyDelete" parameterType="ReplyVO">
+  	update reply
+	set reply_del_yn = 'Y'
+	where reply_seq = #{reply_seq}
+  </update>
+</mapper>

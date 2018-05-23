@@ -32,7 +32,6 @@ public class NoticeWriteServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		
 		String notice_name = request.getParameter("notice_name");
-		System.out.println(notice_name);
 		HttpSession session = request.getSession();
 		String mem_id = (String) session.getAttribute("mem_id");
 		

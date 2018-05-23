@@ -12,7 +12,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Dashboard Template for Bootstrap</title>
+    <title></title>
 
     <!-- Bootstrap core CSS -->
     <link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -25,13 +25,18 @@
 <script>
 $(function(){
 	$("#boardList tr").on('click',function(){
-		var board_seq = $(this).find("td:eq(0)").text();
-		$("#board_seq").val(board_seq);
-		$("#frm").submit();
+		var board_del_yn = $(this).find(".del").val();
+		if(board_del_yn == "Y"){
+			alert("삭제 된 글은 볼 수 없습니다.")
+		}else{
+			var board_seq = $(this).find("td:eq(0)").text();
+			$("#board_seq").val(board_seq);
+			$("#getBoardFrm").submit();	
+		}
 	})
 	
 	$("#boardWrite").on('click',function(){
-		document.location="${pageContext.request.contextPath}/board/boardWrite.jsp"
+		$("#categoryFrm").submit();
 	})
 });
 </script>
@@ -39,10 +44,14 @@ $(function(){
 
   <body>
   	<%@include file="/layout/header.jsp" %>
-
-<form id="frm" method="get" action="${pageContext.request.contextPath}/getBoard">
+<form id="getBoardFrm" method="get" action="${pageContext.request.contextPath}/getBoard">
 	<input type="hidden" id="board_seq" name="board_seq">
 </form>
+
+<form id="categoryFrm" method="get" action="${pageContext.request.contextPath}/boardWrite">
+	<input type="hidden" id="category_seq" name="category_seq" value="${category_seq}">
+</form>
+
     <div class="container-fluid">
       <div class="row">
         <%@ include file="/layout/left.jsp" %>
@@ -59,21 +68,30 @@ $(function(){
                   <th>게시판종류</th>
                   <th>제목</th>
                   <th>날짜</th>
+                  <th><input type="hidden" value="삭제여부"></th>
                 </tr>
               </thead>
               <tbody id="boardList">
-<c:forEach items="${boardList}" var="board">
-                <tr>
-                  <td>${board.board_seq}</td>
-                  <td>${board.category_seq}</td>
-                  <td>${board.board_title }</td>
-                  <td>${board.board_reg_dt}</td>
-                </tr>
-</c:forEach>
+				<c:forEach items="${boardList}" var="board">
+	               <tr>
+	                 <td>${board.board_seq}</td>
+	                 <td>${board.category_seq}</td>
+	                 
+	                 	<td>
+	                 	<c:forEach begin="2" end="${board.level}">&nbsp;&nbsp;&nbsp;&nbsp;</c:forEach>
+	                 	<c:if test="${board.board_seq!=board.group_seq }">┕</c:if>
+	                 	<a>${board.board_del_yn=='N'?board.board_title : '삭제 된 글입니다'}</a>
+	                 </td>
+	                 <td>${board.board_reg_dt}</td>
+	                 <td><input type="hidden" value="${board.board_del_yn}" class="del"></td>
+	               </tr>
+				</c:forEach>
               </tbody>
             </table>
           </div>
-		<button type="button" id="boardWrite" class="btn btn-default">작성</button>
+        <c:if test="${mem_id != null}">
+			<button type="button" id="boardWrite" class="btn btn-default">작성</button>
+        </c:if>
 		${pageNav }
 			</div>
       </div>

@@ -14,18 +14,6 @@ import org.junit.Test;
 public class BoardDaoTest {
 	
 	@Test
-	public void getBoardTotalCntTest() {
-	/***Given***/
-	BoardDaoInf dao = new BoardDao();
-	
-	/***When***/
-	int cnt = dao.getBoardTotalCnt();
-	/***Then***/
-	assertNotNull(cnt);
-	assertEquals(11,cnt);
-	}
-	
-	@Test
 	public void boardWriteTest() {
 	/***Given***/
 	BoardDaoInf dao = new BoardDao();

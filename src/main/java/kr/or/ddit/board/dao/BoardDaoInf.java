@@ -28,7 +28,7 @@ public interface BoardDaoInf {
 	* @return
 	* Method 설명 : 전체 게시판 건수 조회
 	 */
-	public int getBoardTotalCnt();
+	public int getBoardTotalCnt(int getBoardTotalCnt);
 	
 	/**
 	 * 
@@ -66,4 +66,27 @@ public interface BoardDaoInf {
 	 */
 	public int boardModify(BoardVO bvo);
 	
+	/**
+	 * 
+	* Method : boardDelete
+	* 최초작성일 : 2018. 5. 18.
+	* 작성자 : J.C.G
+	* 변경이력 :
+	* @param bvo
+	* @return
+	* Method 설명 : 게시판 글 삭제
+	 */
+	public int boardDelete(BoardVO bvo);
+	
+	/**
+	 * 
+	* Method : boardReWrite
+	* 최초작성일 : 2018. 5. 19.
+	* 작성자 : J.C.G
+	* 변경이력 :
+	* @param bvo
+	* @return
+	* Method 설명 : 답글 입력
+	 */
+	public int boardReWrite(BoardVO bvo);
 }

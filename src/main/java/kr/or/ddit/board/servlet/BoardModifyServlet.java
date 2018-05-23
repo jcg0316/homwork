@@ -68,7 +68,6 @@ public class BoardModifyServlet extends HttpServlet {
 		if(updateModify != 0){
 			response.sendRedirect(request.getContextPath() + "/getBoard?board_seq=" + board_seq);
 		}else{
-			System.out.println("실패입니다");
 			
 		}
 	}

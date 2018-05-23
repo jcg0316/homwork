@@ -5,6 +5,7 @@ public class BoardVO {
 	private int pboard_seq;
 	private int category_seq;
 	private int group_seq;
+	private int level;
 	private String board_title;
 	private String board_content;
 	private String board_reg_dt;
@@ -17,17 +18,18 @@ public class BoardVO {
 
 	public BoardVO(int board_seq, int pboard_seq, int category_seq,
 			int group_seq, String board_title, String board_content,
-			String board_reg_dt, String board_del_yn, String board_mem_id) {
-		super();
-		this.board_seq = board_seq;
-		this.pboard_seq = pboard_seq;
-		this.category_seq = category_seq;
-		this.group_seq = group_seq;
-		this.board_title = board_title;
-		this.board_content = board_content;
-		this.board_reg_dt = board_reg_dt;
-		this.board_del_yn = board_del_yn;
-		this.board_mem_id = board_mem_id;
+			String board_reg_dt, String board_del_yn, String board_mem_id, int level) {
+			super();
+			this.board_seq = board_seq;
+			this.pboard_seq = pboard_seq;
+			this.category_seq = category_seq;
+			this.group_seq = group_seq;
+			this.level = level;
+			this.board_title = board_title;
+			this.board_content = board_content;
+			this.board_reg_dt = board_reg_dt;
+			this.board_del_yn = board_del_yn;
+			this.board_mem_id = board_mem_id;
 	}
 
 	public int getBoard_seq() {
@@ -101,15 +103,23 @@ public class BoardVO {
 	public void setBoard_mem_id(String board_mem_id) {
 		this.board_mem_id = board_mem_id;
 	}
+	
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
 
 	@Override
 	public String toString() {
-		return "BoardVO [board_seq=" + board_seq + ", pboard_seq=" + pboard_seq
+		return "BoardVO [level="+level+"board_seq=" + board_seq + ", pboard_seq=" + pboard_seq
 				+ ", category_seq=" + category_seq + ", group_seq=" + group_seq
 				+ ", board_title=" + board_title + ", board_content="
 				+ board_content + ", board_reg_dt=" + board_reg_dt
 				+ ", board_del_yn=" + board_del_yn + ", board_mem_id="
-				+ board_mem_id + "]";
+				+ board_mem_id + "]\n";
 	}
 	
 	

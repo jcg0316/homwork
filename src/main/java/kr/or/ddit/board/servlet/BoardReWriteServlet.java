@@ -15,23 +15,28 @@ import kr.or.ddit.board.model.BoardVO;
 import kr.or.ddit.board.service.BoardService;
 import kr.or.ddit.board.service.BoardServiceInf;
 
-@WebServlet("/boardWrite")
+@WebServlet("/boardReWrite")
 @MultipartConfig(maxFileSize=1024*1000*3, maxRequestSize=1024*1000*3*5)
-public class BoardWriteServlet extends HttpServlet {
+public class BoardReWriteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private BoardServiceInf service;
 	
-	public BoardWriteServlet() {
+	public BoardReWriteServlet() {
         super();
         service = new BoardService();
     }
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int category_seq = Integer.parseInt((request.getParameter("category_seq")));
-		request.setAttribute("category_seq", category_seq);
+		int board_seq = Integer.parseInt((request.getParameter("board_seq")));
+		int group_seq = Integer.parseInt((request.getParameter("group_seq")));
 		
-		RequestDispatcher rd = request.getRequestDispatcher("/board/boardWrite.jsp");
+		request.setAttribute("category_seq", category_seq);
+		request.setAttribute("board_seq", board_seq);
+		request.setAttribute("group_seq", group_seq);
+		
+		RequestDispatcher rd = request.getRequestDispatcher("/board/boardReWrite.jsp");
 		rd.forward(request, response);
 	}
 
@@ -42,25 +47,34 @@ public class BoardWriteServlet extends HttpServlet {
 		String content = request.getParameter("smarteditor");
 		HttpSession session = request.getSession();
 		String mem_id = (String) session.getAttribute("mem_id");
-
+		
 		int category_seq = Integer.parseInt((request.getParameter("category_seq")));
+		int board_seq = Integer.parseInt((request.getParameter("board_seq")));
+		int group_seq = Integer.parseInt((request.getParameter("group_seq")));
+		
 		request.setAttribute("category_seq", category_seq);
+		request.setAttribute("board_seq", board_seq);
+		request.setAttribute("group_seq", group_seq);
+		
 		
 		BoardVO bvo = new BoardVO();
 		bvo.setBoard_title(title);
 		bvo.setBoard_content(content);
 		bvo.setBoard_mem_id(mem_id);
 		bvo.setCategory_seq(category_seq);
+		bvo.setPboard_seq(board_seq);
+		bvo.setGroup_seq(group_seq);
 		
-		int insertBoard = service.boardWrite(bvo);
+		int insertreWrite = service.boardReWrite(bvo);
 		
-		if(insertBoard == 1){
+		if(insertreWrite == 1){
 			response.sendRedirect(request.getContextPath() + "/boardList?category_seq="+category_seq);
 		}
 		
 		else{
-			response.sendRedirect(request.getContextPath() + "/boardWrite");
+			response.sendRedirect(request.getContextPath() + "/boardReWrite");
 		}
+		
 	}
 
 }

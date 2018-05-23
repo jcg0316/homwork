@@ -26,16 +26,13 @@ public class BoardListServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int category_seq = Integer.parseInt(request.getParameter("category_seq"));
-		System.out.println(category_seq);
 		request.setAttribute("category_seq",category_seq);
 		
 		String pageString = request.getParameter("page");
 		int page = pageString == null ? 1 : Integer.parseInt(pageString);
-		System.out.println("page : " + page);
 		
 		String pageSizeString = request.getParameter("pageSize");
 		int pageSize = pageSizeString == null ? 10 : Integer.parseInt(pageSizeString);
-		System.out.println("pageSize : " + pageSize);
 	
 		Map<String, Object> resultMap = service.getBoardPageList(category_seq, page, pageSize);
 		request.setAttribute("boardList", resultMap.get("boardList"));

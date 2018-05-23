@@ -9,6 +9,7 @@
 		<typeAlias alias="MemberVO" type="kr.or.ddit.member.model.MemberVO"/>
 		<typeAlias alias="BoardVO" type="kr.or.ddit.board.model.BoardVO"/>
 		<typeAlias alias="NoticeVO" type="kr.or.ddit.notice.model.NoticeVO"/>
+		<typeAlias alias="ReplyVO" type="kr.or.ddit.reply.model.ReplyVO"/>
 		
 	</typeAliases>
 	
@@ -29,5 +30,6 @@
     <mapper resource="mybatis/sqlmap/member.xml"/>
     <mapper resource="mybatis/sqlmap/board.xml"/>
     <mapper resource="mybatis/sqlmap/notice.xml"/>
+    <mapper resource="mybatis/sqlmap/reply.xml"/>
   </mappers>
 </configuration>

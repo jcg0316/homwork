@@ -18,9 +18,10 @@
   </select>
   
   <!-- 게시판 건수 조회 -->
-  <select id="getBoardTotalCnt" resultType="Integer">
+  <select id="getBoardTotalCnt" resultType="Integer" parameterType="Integer">
   	select count(*)
   	from board
+  	where category_seq = #{category_seq}
   </select>
   
   <!-- 게시판 글 조회 -->
@@ -32,8 +33,24 @@
   
   <!-- 게시판 글 쓰기  -->
   <insert id="boardWrite" parameterType="BoardVO">
-  	insert into board (board_seq, pboard_seq, category_seq, group_seq, board_title,board_content, board_reg_dt, board_del_yn, board_mem_id)
-				values(board_seq.nextval,'1','1',group_seq.nextval,#{board_title},#{board_content},sysdate,'N',#{board_mem_id})
+  	insert into board (board_seq, 
+  					   pboard_seq, 
+  					   category_seq, 
+  					   group_seq, 
+  					   board_title,
+  					   board_content, 
+  					   board_reg_dt, 
+  					   board_del_yn, 
+  					   board_mem_id)
+				values(board_seq.nextval,
+				       '',
+				       #{category_seq},
+				       board_seq.currval,
+				       #{board_title},
+				       #{board_content},
+				       sysdate,
+				       'N',
+				       #{board_mem_id})
   </insert>
   
   <!--  게시판 글 수정 -->
@@ -46,6 +63,33 @@
   	and board_seq = #{board_seq}
   </update>
   
+  <!--  게시판 글 삭제 -->
+  <update id="boardDelete" parameterType="BoardVO">
+  	update board
+	set board_del_yn = 'Y'
+	where board_seq = #{board_seq}
+  </update>
   
+  <!-- 게시판 답글 -->
+    <insert id="boardReWrite" parameterType="BoardVO">
+  	insert into board (board_seq, 
+  					   pboard_seq, 
+  					   category_seq, 
+  					   group_seq, 
+  					   board_title,
+  					   board_content, 
+  					   board_reg_dt, 
+  					   board_del_yn, 
+  					   board_mem_id)
+				values(board_seq.nextval,
+				       #{pboard_seq},
+				       #{category_seq},
+				       #{group_seq},
+				       #{board_title},
+				       #{board_content},
+				       sysdate,
+				       'N',
+				       #{board_mem_id})
+  </insert>
   
 </mapper>

@@ -33,9 +33,9 @@ public class BoardService implements BoardServiceInf {
 		Map<String,Object> resultMap = new HashMap<String, Object>();
 		
 		List<BoardVO> boardList = bdao.getBoardPageList(category_seq, page, pageSize);
-		int boardTotalCnt = bdao.getBoardTotalCnt();
+		int boardTotalCnt = bdao.getBoardTotalCnt(category_seq);
 		
-		String pageNav = makePageNav(category_seq,page,bdao.getBoardTotalCnt());
+		String pageNav = makePageNav(category_seq,page,bdao.getBoardTotalCnt(category_seq));
 		
 		resultMap.put("boardList",boardList);
 		resultMap.put("pageNav", pageNav);
@@ -56,6 +56,9 @@ public class BoardService implements BoardServiceInf {
 		
 		int pageTotalCnt = (int)Math.ceil((double)boardTotalCnt /10);
 		
+		int prePage = (page-1>0)?page-1:1;
+		int nextPage = (page+1<pageTotalCnt)?page+1:pageTotalCnt;
+		
 		StringBuffer pageNav = new StringBuffer();
 		pageNav.append("<nav>");
 		pageNav.append("<ul class=\"pagination\">");
@@ -63,7 +66,11 @@ public class BoardService implements BoardServiceInf {
 		pageNav.append("<a href=\"boardList?page=1&pageSize=10&category_seq="+category_seq+"\" aria-label=\"GoTOFirst\">");
 		pageNav.append("<span aria-hidden=\"true\">&laquo;</span>");
 		pageNav.append("</a>");
-		pageNav.append("<a href=\"boardList?page="+(page-1)+"&pageSize=10&category_seq="+category_seq+"\" aria-label=\"Previous\">");
+		if(page <= 1){
+			pageNav.append("<a href=\"#\" aria-label=\"Previous\">");
+		}else{
+			pageNav.append("<a href=\"boardList?page="+prePage+"&pageSize=10&category_seq="+category_seq+"\" aria-label=\"Previous\">");
+		}
 		pageNav.append("<span aria-hidden=\"true\">&lt;</span>");
 		pageNav.append("</a>");
 		pageNav.append("</li>");
@@ -78,7 +85,12 @@ public class BoardService implements BoardServiceInf {
 		}
 		
 		pageNav.append("<li>");
-		pageNav.append("<a href=\"boardList?page="+(page+1)+"&pageSize=10&category_seq="+category_seq+"\" aria-label=\"Next\">");
+		if(page >= pageTotalCnt){
+			pageNav.append("<a href=\"#\" aria-label=\"Next\">");
+		}else{
+			pageNav.append("<a href=\"boardList?page="+nextPage+"&pageSize=10&category_seq="+category_seq+"\" aria-label=\"Next\">");
+			
+		}
 		pageNav.append("<span aria-hidden=\"true\">&gt;</span>");
 		pageNav.append("</a>");
 		pageNav.append("<a href=\"boardList?page="+pageTotalCnt+"&pageSize=10&category_seq="+category_seq+"\" aria-label=\"GoTOLast\">");
@@ -104,6 +116,16 @@ public class BoardService implements BoardServiceInf {
 	@Override
 	public int boardModify(BoardVO bvo) {
 		return bdao.boardModify(bvo);
+	}
+
+	@Override
+	public int boardDelete(BoardVO bvo) {
+		return bdao.boardDelete(bvo);
+	}
+
+	@Override
+	public int boardReWrite(BoardVO bvo) {
+		return bdao.boardReWrite(bvo);
 	}
 
 	

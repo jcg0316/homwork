@@ -31,7 +31,7 @@
 <script type="text/javascript">
 
 $(function(){
-
+	
 	$("#board_title").focus();
 	
 	$("#savebutton").click(function(){
@@ -43,7 +43,7 @@ $(function(){
 		}
 		
 		//submit
-		$("#boardwriteFrm").submit();
+		$("#reBoardwriteFrm").submit();
 	});
 });	
 
@@ -104,10 +104,12 @@ function validation(){
 
 			<!-- <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"> -->
 			<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-				<form id="boardwriteFrm" action="${pageContext.request.contextPath}/boardWrite"method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+				<form id="reBoardwriteFrm" action="${pageContext.request.contextPath}/boardReWrite" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
 					 <input type="hidden" id="category_seq" name="category_seq" value="${category_seq}">
+					 <input type="hidden" id="board_seq" name="board_seq" value="${board_seq}">
+					 <input type="hidden" name="group_seq" value="${group_seq }">
 					 <div class="form-group">
-						<label for="userNm" class="col-sm-2 control-label">제목</label>
+						<label for="userNm" class="col-sm-2 control-label">답글 제목</label>
 						<div class="col-sm-3">
 							<input type="text" class="form-control" id="board_title" name="board_title" placeholder="제목">
 						</div>
